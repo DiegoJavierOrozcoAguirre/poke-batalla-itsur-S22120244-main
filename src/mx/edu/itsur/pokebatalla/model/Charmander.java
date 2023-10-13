@@ -3,19 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mx.edu.itsur.pokebatalla.model;
-
+import java.util.ArrayList;
 /**
  *
  * @author FJML1983
  */
 public class Charmander extends Pokemon {
-    public Charmander(){
-        tipo = "FUEGO";
-        hp = 39;
-        ataque = 52;
-        defensa = 43;
-        nivel = 1;
-        precision = 4;
+    
+public Charmander(){
+        this.tipo = "FUEGO";
+        this.hp = 39;
+        this.ataque = 52;
+        this.defensa = 43;
+        this.nivel = 1;
+        this.precision = 4;
+        this.habilidades = new ArrayList<>();
+        this.habilidades.add("ASCUAS");
+        this.habilidades.add("COLMILLO ÍGNEO");
     }
     
     //Constructor alterno 1
@@ -24,4 +28,14 @@ public class Charmander extends Pokemon {
         this.nombre = nombre;
     }
     
+       public void atacar(Pokemon oponente, String habilidad){
+           if(habilidad.equals("ASCUAS")){
+            //Logica del daño por atacktrueno
+            System.out.println("Realizando ASCUAS");
+        }else if(habilidad.equals("COLMILLO ÍGNEO")){
+            //Logica del daño por BOLAVOLTIO
+            System.out.println("Realizando COLMILLO ÍGNEO");            
+        }
+        //TODO: otras habilidades...
+    }
 }
