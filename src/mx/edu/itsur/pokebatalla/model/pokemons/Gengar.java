@@ -2,15 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mx.edu.itsur.pokebatalla.model;
+package mx.edu.itsur.pokebatalla.model.pokemons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import mx.edu.itsur.pokebatalla.model.moves.AtaqueRapido;
+import mx.edu.itsur.pokebatalla.model.moves.BolaSombra;
+
+import mx.edu.itsur.pokebatalla.model.moves.Movimiento;
+import mx.edu.itsur.pokebatalla.model.moves.RayoConfuso;
+
+
 
 /**
  *
  * @author DIEGO JAVIER OROZCO AGUIRRE
  */
-public class Gengar extends Pokemon{
+public class Gengar extends Pokemon implements Serializable{
+
+    public enum Movimientos {
+        BOLA_SOMBRA,
+        ATAQUE_RAPIDO,
+        RAYO_CONFUSO,
+        GOLPE_KARATE
+
+        //Otros movimientos...
+    }
+
     public Gengar() {
         this.tipo = "FANTASMA/VENENO";
         this.hp = 60;
@@ -18,23 +36,42 @@ public class Gengar extends Pokemon{
         this.defensa = 60;
         this.nivel = 1;
         this.precision = 5;
-        this.habilidades = new ArrayList<>();
-        this.habilidades.add("PUÑO SOMBRA");
-        this.habilidades.add("BOMBA ACIDA");
+        this.xp = 190;
+
     }
 
-    //Constructor alterno 1
-    public Gengar(String nombre){
-        this(); //invocando al constructor default
-        this.nombre = nombre;
-    }
-    
-       public void atacar(Pokemon oponente, String habilidad){
-         if(habilidad.equals("PUÑO SOMBRA")){
-            System.out.println("Realizando PUÑO SOMBRA");
-        }else if(habilidad.equals("BOMBA ACIDA")){
-            System.out.println("Realizando BOMBA ACIDA");            
+    public void atacar(Pokemon oponente, int ordinalMovimiento) {
+        
+        if (this.hp <= 0) {
+            System.out.println("El Pokemon esta agotado y no puede realizar mas movimientos");
+            return;
         }
-        //TODO: otras habilidades...
+
+        Gengar.Movimientos movimientoAUtilizar = Gengar.Movimientos.values()[ordinalMovimiento];
+        //Instanciar el movimiento solicitado
+        Movimiento instanciaMovimiento;
+        
+        switch (movimientoAUtilizar) {
+            case RAYO_CONFUSO:
+                instanciaMovimiento = new RayoConfuso();
+                break;
+            case BOLA_SOMBRA:
+                instanciaMovimiento = new BolaSombra();
+                break;
+            case ATAQUE_RAPIDO:
+                instanciaMovimiento = new AtaqueRapido();
+                break;
+
+            //Otros movimientos aquí...                
+            default:
+                throw new AssertionError();
+        }
+        //Aplicar el movimiento.
+        instanciaMovimiento.utilizar(this, oponente);
+    }
+
+    @Override
+    public Enum[] getMovimientos() {
+        return Gengar.Movimientos.values();
     }
 }

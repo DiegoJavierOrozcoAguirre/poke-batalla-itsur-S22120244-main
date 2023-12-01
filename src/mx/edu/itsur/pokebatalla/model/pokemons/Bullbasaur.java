@@ -2,41 +2,78 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mx.edu.itsur.pokebatalla.model;
-import java.util.ArrayList;
+package mx.edu.itsur.pokebatalla.model.pokemons;
+
+import java.io.Serializable;
+import mx.edu.itsur.pokebatalla.model.moves.AtaqueRapido;
+import mx.edu.itsur.pokebatalla.model.moves.BolaSombra;
+import mx.edu.itsur.pokebatalla.model.moves.Latigo;
+import mx.edu.itsur.pokebatalla.model.moves.Movimiento;
+import mx.edu.itsur.pokebatalla.model.moves.RayoConfuso;
+
 /**
  *
  * @author FJML1983
  */
-public class Bullbasaur extends Pokemon {
+public class Bullbasaur extends Pokemon implements Serializable{
+
+    public enum Movimientos {
+        ATAQUE_RAPIDO,
+        LATIGO
+    }
 
     public Bullbasaur() {
-        this.tipo = "PLANTA/VENENO";
-        this.hp = 45;
-        this.ataque = 49;
-        this.defensa = 49;
-        this.nivel = 1;
-        this.precision = 4;
-        this.habilidades = new ArrayList<>();
-        this.habilidades.add("LÁTIGO CEPA");
-        this.habilidades.add("HOJA AFILADA");
+        tipo = "PLANTA/VENENO";
+        hp = 45;
+        ataque = 49;
+        defensa = 49;
+        nivel = 1;
+        precision = 4;
+        xp = 64;
     }
 
     //Constructor alterno 1
-    public Bullbasaur(String nombre){
+    public Bullbasaur(String nombre) {
         this(); //invocando al constructor default
         this.nombre = nombre;
+
     }
+     @Override
+    public Enum[] getMovimientos() {
+        return Bullbasaur.Movimientos.values();
+    }    
     
-       public void atacar(Pokemon oponente, String habilidad){
-         if(habilidad.equals("LÁTIGO CEPA")){
-            //Logica del daño por atacktrueno
-            System.out.println("Realizando LÁTIGO CEPA");
-        }else if(habilidad.equals("HOJA AFILADA")){
-            //Logica del daño por BOLAVOLTIO
-            System.out.println("Realizando HOJA AFILADA");            
+    @Override
+    public void atacar(Pokemon oponente, int ordinalMovimiento) {
+
+        //Si el pokemon está agotado no podrá realizar nada.
+        if (this.hp <= 0) {
+            System.out.println("Bullbasaur esta agotado y no puede realizar mas movimientos.");
+            return;
+        }        
+        
+        //Obtener el movimiento de acuerdo a su numero ordinal
+	Bullbasaur.Movimientos movimientoAUtilizar 
+                = Bullbasaur.Movimientos.values()[ordinalMovimiento];        
+        
+        //Instanciar el movimiento solicitado
+        Movimiento instanciaMovimiento;
+        switch (movimientoAUtilizar) {
+            case ATAQUE_RAPIDO:
+                instanciaMovimiento = new AtaqueRapido();
+                break;
+            case LATIGO:
+                instanciaMovimiento = new Latigo();
+                break;
+
+            //Otros movimientos aquí...
+            default:
+                throw new AssertionError();
+            
         }
-        //TODO: otras habilidades...
-    }
-    
+        
+        //instanciaMovimiento.utilizar(this, oponente);
+        instanciaMovimiento.utilizar(this, oponente);
+    }    
+  
 }

@@ -2,40 +2,74 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mx.edu.itsur.pokebatalla.model;
-import java.util.ArrayList;
+package mx.edu.itsur.pokebatalla.model.pokemons;
+
+import java.io.Serializable;
+import mx.edu.itsur.pokebatalla.model.moves.AtaqueRapido;
+import mx.edu.itsur.pokebatalla.model.moves.BolaSombra;
+import mx.edu.itsur.pokebatalla.model.moves.Impactrueno;
+import mx.edu.itsur.pokebatalla.model.moves.Latigo;
+import mx.edu.itsur.pokebatalla.model.moves.Movimiento;
+import mx.edu.itsur.pokebatalla.model.moves.RayoConfuso;
+
 /**
  *
- * @author FJML1983
+ * @author DIEGO JAVIER OROZCO AGUIRRE
  */
-public class Charmander extends Pokemon {
-    
-public Charmander(){
-        this.tipo = "FUEGO";
-        this.hp = 39;
-        this.ataque = 52;
-        this.defensa = 43;
-        this.nivel = 1;
-        this.precision = 4;
-        this.habilidades = new ArrayList<>();
-        this.habilidades.add("ASCUAS");
-        this.habilidades.add("COLMILLO ÍGNEO");
+public class Charmander extends Pokemon implements Serializable{
+
+    /**
+     * Movimientos que puede realizar el Pokémon
+     */
+    public enum Movimientos {
+        ATAQUE_RAPIDO,
+
+        //Otros movimientos...
     }
-    
+
+    public Charmander() {
+        tipo = "FUEGO";
+        hp = 39;
+        ataque = 52;
+        defensa = 43;
+        nivel = 1;
+        precision = 4;
+        
+    }
+
     //Constructor alterno 1
-    public Charmander(String nombre){
+    public Charmander(String nombre) {
         this(); //invocando al constructor default
         this.nombre = nombre;
     }
-    
-       public void atacar(Pokemon oponente, String habilidad){
-           if(habilidad.equals("ASCUAS")){
-            //Logica del daño por atacktrueno
-            System.out.println("Realizando ASCUAS");
-        }else if(habilidad.equals("COLMILLO ÍGNEO")){
-            //Logica del daño por BOLAVOLTIO
-            System.out.println("Realizando COLMILLO ÍGNEO");            
+
+    public void atacar(Pokemon oponente, int ordinalMovimiento) {
+        
+        if (this.hp <= 0) {
+            System.out.println("El Pokemon esta agotado y no puede realizar mas movimientos");
+            return;
         }
-        //TODO: otras habilidades...
+
+        Charmander.Movimientos movimientoAUtilizar = Charmander.Movimientos.values()[ordinalMovimiento];
+        //Instanciar el movimiento solicitado
+        Movimiento instanciaMovimiento;
+        
+        switch (movimientoAUtilizar) {
+
+            case ATAQUE_RAPIDO:
+                instanciaMovimiento = new AtaqueRapido();
+                break;
+
+            //Otros movimientos aquí...                
+            default:
+                throw new AssertionError();
+        }
+        //Aplicar el movimiento.
+        instanciaMovimiento.utilizar(this, oponente);
+    }
+
+    @Override
+    public Enum[] getMovimientos() {
+        return Charmander.Movimientos.values();
     }
 }

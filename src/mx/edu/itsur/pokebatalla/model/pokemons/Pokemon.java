@@ -2,15 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mx.edu.itsur.pokebatalla.model;
+package mx.edu.itsur.pokebatalla.model.pokemons;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  *
- * @author FJML1983
+ * @author DIEGO JAVIER OROZCO AGUIRRE
  */
-public class Pokemon {
+public abstract class Pokemon implements Serializable {
 
     //Atributos
     protected String tipo;
@@ -20,41 +20,81 @@ public class Pokemon {
     protected int ataque;
     protected int defensa;
     protected double precision;
-    protected List<String> habilidades;
+    protected int xp;
 
     Pokemon() {
     }
 
+    //Getters
+    public int getNivel() {
+        return nivel;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public int getDefensa() {
+        return defensa;
+    }
+    
+    public int getHP() {
+       return hp;
+    }
     //Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    //Métodos
-    public void atacar(Pokemon oponente) {
-        System.out.println("Mi pokemon:" + this.nombre);
-        System.out.println("esta atacando a: " + oponente);
-
-        if (this.ataque > oponente.defensa) {
-            //Calcular el daño
-            int damage = this.ataque - oponente.defensa;
-            //Restar el daño del HP del oponente
-            oponente.hp = oponente.hp - damage;
-            System.out.println("Y le causo un daño de: " + damage);
-        } else {
-            //TODO: ...Y si no que pasa?
-        }
-        System.out.println("El pokemon oponente quedo asi:" + oponente);
-
-        //System.out.println("Pokemon Atacando a un: " + enemigo.getClass().getName());
-        //TODO: Aqui va la logica para causar daño al enemigo.
+    
+    //Métodos 
+    public void recibirDanio(int danio) {
+        this.hp = this.hp - danio;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public double getPrecision() {
+        return precision;
+    }
+
+    public void setPrecision(double precision) {
+        this.precision = precision;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public abstract void atacar(Pokemon oponente, int ordinalMovimiento);
+    //Devolver la lista de movimientos disponibles del pokemon.
+
+    public abstract Enum[] getMovimientos();
 
     @Override
     public String toString() {
 
-        return this.getClass().getName()
+        return this.getClass().getSimpleName()
                 + "{tipo:" + tipo + " hp:" + hp + "}";
     }
+
+    
 
 }
